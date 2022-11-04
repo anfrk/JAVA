@@ -1,0 +1,65 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Choice extends JFrame{
+	public Choice() {
+		setTitle("지뢰찾기");
+		setSize(500, 600);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container c = getContentPane();
+		c.setLayout(null);		//배치관리자 제거
+		
+		JButton easy = new JButton("초급");
+		
+		easy.setLocation(60, 200);
+		easy.setSize(100, 100);
+		c.add(easy);
+		easy.addActionListener(new ActionListener() {		//시작하기 버튼 클릭시 창 전환
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new easymode();
+				setVisible(false);		//창 안보이게 하기
+				
+			}
+		});
+		
+		JButton normal = new JButton("중급");
+		
+		normal.setLocation(200, 200);
+		normal.setSize(100, 100);
+		c.add(normal);
+		normal.addActionListener(new ActionListener() {		//시작하기 버튼 클릭시 창 전환
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new normalmode();
+				setVisible(false);		//창 안보이게 하기
+				
+			}
+		});
+		
+		JButton hard = new JButton("고급");
+		
+		hard.setLocation(340, 200);
+		hard.setSize(100, 100);
+		c.add(hard);
+		hard.addActionListener(new ActionListener() {		//시작하기 버튼 클릭시 창 전환
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new hardmode();
+				setVisible(false);		//창 안보이게 하기
+				
+			}
+		});
+		
+	}
+
+	public static void main(String[] args) {
+		new Choice();
+
+	}
+
+}
