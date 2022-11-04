@@ -1,0 +1,74 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class MiseSweeper extends JFrame {
+	
+	public test() {
+		setTitle("지뢰찾기");
+		setSize(500, 600);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container c = getContentPane();
+		c.setLayout(null);		//배치관리자 제거
+		
+		createmenu();
+		
+		JLabel la = new JLabel("지뢰찾기");
+		Font font = new Font("맑은 고딕",Font.BOLD, 40);	//라벨의 폰트를 조절
+		la.setFont(font);
+		la.setHorizontalAlignment(JLabel.CENTER);	//글씨 가운데정렬
+		la.setLocation(75, 75);
+		la.setSize(330, 75);
+		la.setOpaque(true);
+		la.setBackground(Color.GRAY);
+		c.add(la);
+		
+		JButton start = new JButton("시작하기");
+		start.setLocation(75, 250);
+		start.setSize(120, 50);
+		c.add(start);
+		
+		start.addActionListener(new ActionListener() {		//시작하기 버튼 클릭시 창 전환
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Choice();
+				setVisible(false);		//창 안보이게 하기
+				
+			}
+		});
+		
+		JButton quick = new JButton("종료하기");
+		quick.setLocation(280, 250);
+		quick.setSize(120, 50);
+		c.add(quick);
+		
+		quick.addActionListener(new ActionListener() {	//종료하기 버튼 클릭시 프레임 종료
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+	}
+	
+	public void createmenu() {
+		
+		JMenuBar mb = new JMenuBar();	
+		JMenu gamemenu = new JMenu("게임");	//게임이라는 이름의 메뉴 설정
+		mb.add(gamemenu);
+		this.setJMenuBar(mb);	//메인 프레임에 메뉴바를 붙임
+		
+		gamemenu.add(new JMenuItem("초급"));
+		gamemenu.add(new JMenuItem("중급"));
+		gamemenu.add(new JMenuItem("고급"));
+		gamemenu.addSeparator();	//분리선			
+	}
+
+	public static void main(String[] args) {
+		
+		new MineSweeper();
+
+	}
+}
