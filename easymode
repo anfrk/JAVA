@@ -1,0 +1,153 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class easymode extends JFrame {
+    
+	public easymode() {
+		setTitle("지뢰찾기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menuBar = new JMenuBar();
+	    JMenu file = new JMenu("파일(F)");
+	    JMenuItem file_new = new JMenuItem("새 게임(N)");
+	    JMenu file_diff = new JMenu("난이도(D)");
+	    JMenuItem diff_easy = new JMenuItem("초급(E)");
+	    JMenuItem diff_normal = new JMenuItem("중급(N)");
+	    JMenuItem diff_hard = new JMenuItem("고급(H)");
+	    JMenuItem diff_user = new JMenuItem("사용자 정의(U)");
+	    JMenuItem file_exit = new JMenuItem("종료(E)");
+	    
+	    JMenu help = new JMenu("도움말(H)");
+	    JMenuItem file_help = new JMenuItem("제작자(C)");
+
+	        this.setJMenuBar(menuBar);
+
+	        // 단축키 설정
+	        file.setMnemonic( 'F' );
+	        file_new.setMnemonic( 'N' );
+	        file_diff.setMnemonic( 'D' );
+	        diff_easy.setMnemonic( 'E' );
+	        diff_normal.setMnemonic( 'N' );
+	        diff_hard.setMnemonic( 'H' );
+	        diff_user.setMnemonic( 'U' );
+	        file_exit.setMnemonic( 'E' );
+	        help.setMnemonic( 'H' );
+	        file_help.setMnemonic( 'C' );
+
+	        // 메뉴바 생성
+	        menuBar.add(file);
+	        file.add(file_new);
+	        file.add(file_diff);
+	        file_diff.add(diff_easy);
+	        file_diff.add(diff_normal);
+	        file_diff.add(diff_hard);
+	        file_diff.add(diff_user);
+	        file.addSeparator();
+	        file.add(file_exit);
+	        
+	        menuBar.add(help);
+	        help.add(file_help);
+	        
+	        Container c = getContentPane();
+			c.setLayout(new BorderLayout()); 
+			// 디폴트 값으로  이 배치관리자를 가지고 있기 때문에 따로 배치관리자 지정안해도 됨
+			c.add(new NorthPanel(),BorderLayout.NORTH); // North 패널 추가
+			c.add(new CenterPanel(),BorderLayout.CENTER); // Center 패널 추가
+			
+			setSize(500, 400);
+	        setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		new easymode();
+
+	}
+}
+
+class NorthPanel extends JPanel{ // NORTH에 붙일 패널
+	NorthPanel(){
+		// Layout 설정
+				
+			JLabel la = new JLabel("이미지");
+			la.setSize(60, 60);
+			la.setLocation(100, 10);
+			this.add(la);
+	}
+}
+class CenterPanel extends JPanel{ // CENTER에 붙일 패널
+	JButton button[][] = new JButton[8][10];
+	char arr [][] = new char[8][10];
+	int i, j;
+	CenterPanel(){
+		
+		int num = 0;
+		int m = 10;	//지뢰개수
+		
+        GridLayout grid = new GridLayout(8,10);
+        setLayout(grid);
+        
+        for(i = 0 ; i < 8; i++)
+            for(j = 0 ; j < 10; j++){
+            	arr[i][j] = '0';
+            }
+        while(num < m) {						//중복되지 않게 랜덤한곳에 지뢰를 저장
+			int row = (int) (Math.random()*8);
+			int col = (int) (Math.random()*10);
+			
+			if(arr[row][col] == '*') {		//이미 지뢰가 들어간곳은 안들어가게함
+				continue;
+			}
+			else {
+				arr[row][col] = '*';
+				for(i=row-1; i<=row+1; i++) {		//지뢰를 넣으면서 그주변으로 1씩 더해줌
+					for(j=col-1; j<=col+1; j++) {
+						if( i<0 || j<0 || i==8 || j==10 || arr[i][j] == '*') {		//지뢰가 있는곳이거나 배열의 범위가 아닌곳은 건너뜀
+							continue;
+						}
+						else {
+								arr[i][j] += 1;
+						}
+					}
+				}
+				num++;
+			}
+		}
+        
+        for(i=0; i<8; i++) {
+        	for(j=0; j<10; j++) {
+        		button[i][j] = new JButton();
+                add(button[i][j]);
+                
+        	}
+        }
+	}
+}
+
+class MyMouseListener extends CenterPanel implements MouseListener{
+
+    @Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON1) {	//마우스 좌클릭(결과값얻기)
+	        
+	     }
+		if(e.getButton() == MouseEvent.BUTTON2) {	//마우스 휠클릭(힌트얻기)
+
+		}
+		if(e.getButton() == MouseEvent.BUTTON3) {	//마우스 우클릭(깃발세우기)
+			
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+}
